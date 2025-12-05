@@ -6,6 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from 'modules/users/entities/users.entity';
 import { BlogService } from 'modules/blogs/blogs.service';
+import { LIMIT_DEFAULT } from 'common/constants/variables';
 
 @Injectable()
 export class CommentsService {
@@ -42,6 +43,9 @@ export class CommentsService {
       .createQueryBuilder('comment')
       .where('comment.blog_id=:blog_id', { blog_id });
 
+    if (limit > 50) {
+      limit = LIMIT_DEFAULT;
+    }
     if (page && limit) {
       query.skip((page - 1) * limit).take(limit);
     }

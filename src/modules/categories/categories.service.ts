@@ -10,6 +10,7 @@ import { DataSource, ILike, In, QueryFailedError, Repository } from 'typeorm';
 import { FilesService } from 'modules/files/files.service';
 import { isNumeric } from 'common/helpers/number';
 import { FAQService } from 'modules/faqs/services/faqs.service';
+import { LIMIT_DEFAULT } from 'common/constants/variables';
 
 @Injectable()
 export class CategoriesService {
@@ -62,6 +63,9 @@ export class CategoriesService {
   }
 
   async findAll(page?: number, limit?: number, search_text?: string) {
+    if (limit > 50) {
+      limit = LIMIT_DEFAULT;
+    }
     const query = this.categoryRep.createQueryBuilder('category');
     if (page && limit) {
       query.skip((page - 1) * limit).take(limit);

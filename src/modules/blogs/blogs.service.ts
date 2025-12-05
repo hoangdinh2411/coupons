@@ -23,6 +23,7 @@ import { TopicService } from 'modules/topic/topic.service';
 import { FilesService } from 'modules/files/files.service';
 import { TopicEntity } from 'modules/topic/entities/topic.entity';
 import { FAQService } from 'modules/faqs/services/faqs.service';
+import { LIMIT_DEFAULT } from 'common/constants/variables';
 
 @Injectable()
 export class BlogService {
@@ -171,6 +172,9 @@ export class BlogService {
     limit?: number,
     exclude_blog_id?: number,
   ) {
+    if (limit > 50) {
+      limit = LIMIT_DEFAULT;
+    }
     const query = this.blogRepo
       .createQueryBuilder('blog')
       .orderBy('blog.updated_at', 'DESC')
@@ -348,6 +352,9 @@ export class BlogService {
   }
 
   async getLatestBlogs(limit: number) {
+    if (limit > 50) {
+      limit = LIMIT_DEFAULT;
+    }
     return await this.blogRepo
       .createQueryBuilder('blog')
       .orderBy('blog.updated_at', 'DESC')
@@ -363,6 +370,9 @@ export class BlogService {
   }
 
   getTrending(limit: number) {
+    if (limit > 50) {
+      limit = LIMIT_DEFAULT;
+    }
     return this.blogRepo
       .createQueryBuilder('blog')
       .orderBy('blog.rating', 'DESC')
