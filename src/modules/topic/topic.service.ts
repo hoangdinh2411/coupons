@@ -9,6 +9,7 @@ import { DataSource, ILike, QueryFailedError, Repository } from 'typeorm';
 import { TopicEntity } from './entities/topic.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FilesService } from 'modules/files/files.service';
+import { LIMIT_DEFAULT } from 'common/constants/variables';
 
 @Injectable()
 export class TopicService {
@@ -48,6 +49,9 @@ export class TopicService {
 
   async findAll(page?: number, limit?: number, search_text?: string) {
     const query = this.topicRepo.createQueryBuilder('topic');
+    if (limit > 50) {
+      limit = LIMIT_DEFAULT;
+    }
     if (page && limit) {
       query.skip((page - 1) * limit).take(limit);
     }

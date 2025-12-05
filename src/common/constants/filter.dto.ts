@@ -52,6 +52,8 @@ export class FilterDto {
   page?: number;
 
   @IsNumber()
+  @Max(50)
+  @Min(0)
   @IsOptional()
   @ApiProperty({
     type: () => 'limit',

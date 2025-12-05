@@ -144,6 +144,9 @@ export class ClientService {
   }
 
   async getTopStoreToday(category_id?: number | null, limit?: number) {
+    if (limit > 50) {
+      limit = LIMIT_DEFAULT;
+    }
     const query = this.dataSource
       .getRepository(StoreEntity)
       .createQueryBuilder('store')

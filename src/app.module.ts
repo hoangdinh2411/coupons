@@ -12,7 +12,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtAuthGuard } from 'common/guards/jwtAuth.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { RoleGuard } from 'common/guards/role.guard';
-import { DataSource } from 'typeorm';
 import { DatabaseConfig } from 'config/dto/config.dto';
 import { validateSync } from 'class-validator';
 import { getDbConfig } from 'config/db.config';
@@ -52,7 +51,7 @@ import { ScheduleModule } from '@nestjs/schedule';
   ],
 })
 export class AppModule {
-  constructor(private readonly _dataSource: DataSource) {}
+  constructor() {}
   configure(consumer: MiddlewareConsumer): void {
     consumer.apply(LoggerMiddleware).forRoutes('*');
   }

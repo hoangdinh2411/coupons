@@ -11,6 +11,7 @@ import { DataSource, ILike, QueryFailedError, Repository } from 'typeorm';
 import { FilesService } from 'modules/files/files.service';
 import { FAQService } from 'modules/faqs/services/faqs.service';
 import { isNumeric } from 'common/helpers/number';
+import { LIMIT_DEFAULT } from 'common/constants/variables';
 
 @Injectable()
 export class PagesService {
@@ -71,6 +72,9 @@ export class PagesService {
   }
   async findAll(page?: number, limit?: number, search_text?: string) {
     const query = this.pageRepo.createQueryBuilder('pages');
+    if (limit > 50) {
+      limit = LIMIT_DEFAULT;
+    }
     if (page && limit) {
       query.skip((page - 1) * limit).take(limit);
     }
